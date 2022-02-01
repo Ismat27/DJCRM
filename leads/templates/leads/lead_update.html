@@ -11,13 +11,11 @@
         </style>
     </head>
     <body>
-        <a href="/leads/create/">create new lead</a>
-        <hr>
-        <h1>All Leads</h1>
-        {% for lead in leads %}
-        <div class="lead">
-            <a href="/leads/{{lead.id}}">{{lead}}</a>
-        </div>
-        {% endfor %}
+    <h1>Upadate {{lead}}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
     </body>
 </html>

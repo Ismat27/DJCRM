@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lead List</title>
+        <style>
+            .lead {
+                margin: 5px 5px;
+                padding: 5px 5px;
+                background-color: lightgray;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="/leads/create/">create nem lead</a>
+        <hr>
+        <h1>All Leads</h1>
+        {% for lead in leads %}
+        <div class="lead">
+            <a href="/leads/{{lead.id}}">{{lead}}</a>
+        </div>
+        {% endfor %}
+    </body>
+</html>

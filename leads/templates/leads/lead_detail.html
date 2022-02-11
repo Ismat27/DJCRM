@@ -42,10 +42,4 @@
       </div>
     </div>
   </section>
-<p><a href="{% url 'leads:lead_list' %}">Go back</a></p>
-<h1>This is the detail of {{lead}}</h1>
-<hr>
-<a href="{% url 'leads:lead_update' lead.pk %}"> Update {{lead}}</a>
-<a href="{% url 'leads:lead_delete' lead.pk %}"> Delete {{lead}}</a>
-
 {% endblock content %}

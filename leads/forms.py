@@ -1,5 +1,7 @@
+import imp
 from re import L
 from django import forms
+from django.forms import TextInput, NumberInput, Select
 from .models import Lead
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth import get_user_model
@@ -14,6 +16,29 @@ class ModelLeadForm(forms.ModelForm):
             'age',
             'agent'
         )
+        widgets = {
+            'first_name': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'firstname'
+            }),
+
+            'last_name': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'lastname'
+            }),
+
+            'age': NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'age'
+            }),
+
+            'agent': Select(attrs={
+                'class': 'form-select',
+                
+            }),
+
+
+        }
 
 class LeadForm(forms.Form):
     first_name = forms.CharField()

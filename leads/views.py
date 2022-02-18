@@ -20,13 +20,29 @@ class LandingPageView(generic.TemplateView):
 
 class LeadListView(LoginRequiredMixin, generic.ListView):
     template_name = 'leads/lead_list.html'
-    queryset =  Lead.objects.all()
     context_object_name = 'leads' # default is object_list
+
+    def get_queryset(self) :
+        user = self.request.user
+        if user.is_organiser:
+            queryset = Lead.objects.filter(organisation=user.userprofile)
+        else: 
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            queryset = Lead.objects.filter(agent__user = user)
+        return queryset
 
 class LeadDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'leads/lead_detail.html'
-    queryset =  Lead.objects.all()
     context_object_name = 'lead' # default is object_list
+
+    def get_queryset(self) :
+        user = self.request.user
+        if user.is_organiser:
+            queryset = Lead.objects.filter(organisation=user.userprofile)
+        else: 
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            queryset = Lead.objects.filter(agent__user = user)
+        return queryset
 
 
 class LeadCreateView(LoginRequiredMixin, generic.CreateView):
@@ -59,8 +75,12 @@ def lead_create(request):
 
 class LeadUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'leads/lead_update.html'
-    queryset =  Lead.objects.all()
     form_class = ModelLeadForm
+
+    def get_queryset(self) :
+        user = self.request.user
+        queryset = Lead.objects.filter(organisation=user.userprofile)
+        return queryset
 
     def get_success_url(self) :
         return reverse('leads:lead_list')
@@ -82,7 +102,11 @@ def lead_update(request, pk):
 
 class LeadDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = 'leads/lead_delete.html'
-    queryset =  Lead.objects.all()
+
+    def get_queryset(self) :
+        user = self.request.user
+        queryset = Lead.objects.filter(organisation=user.userprofile)
+        return queryset
 
     def get_success_url(self) :
         return reverse('leads:lead_list')

@@ -1,18 +1,17 @@
 from django import forms
 from django.forms import Select
 from leads.models import Agent
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
+User = get_user_model()
 class AgentModelForm(forms.ModelForm):
 
     class Meta:
-        model = Agent
+        model = User
         fields = (
-            'user',
+            'email',
+            'username',
+            'first_name',
+            'last_name'
         )
-
-        widgets = {
-             'user': Select(attrs={
-                'class': 'form-select mt-3',
-                
-            }),
-        }

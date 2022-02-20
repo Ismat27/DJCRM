@@ -6,7 +6,7 @@
 <form method="post">
     {% csrf_token %}
     <div class="form-group mt-3">
-       {{ form.user}}
+       {{ form.as_p }}
     </div>
     <div class="form-group">
         <button class="btn btn-primary" type="submit" style="background-color: #0d6efd;">Submit</button>

@@ -1,4 +1,5 @@
 from audioop import reverse
+import random
 from re import template
 from django.shortcuts import render, reverse
 from django.views import generic
@@ -6,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from leads.models import Agent
 from . forms import AgentModelForm
 from .mixins import OrganiserAndLoginRequiredMixin
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -22,9 +24,21 @@ class AgentCreateView(OrganiserAndLoginRequiredMixin, generic.CreateView):
     form_class = AgentModelForm
 
     def form_valid(self, form):
-        agent = form.save(commit=False)
-        agent.organisation = self.request.user.userprofile
-        agent.save()
+        user = form.save(commit=False)
+        user.is_agent = True
+        user.is_organiser = False
+        user.set_password(f"{random.randint(1,1000000)}")
+        user.save()
+        Agent.objects.create(
+            user=user,
+            organisation = self.request.user.userprofile
+        )
+        send_mail(
+            subject="You have been appointed an Agent",
+            message="You have been appointed an agent on DJCRM, pls loggin to confirm your details and start working",
+            from_email="test@test.com",
+            recipient_list=[user.email]
+        )
         return super(AgentCreateView, self).form_valid(form) 
 
     def get_success_url(self):

@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import (
+    LoginView,
+    LogoutView, 
+    PasswordResetView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetCompleteView,
+    )
 from django.contrib import admin
 from django.urls import path, include
 from leads.views import LandingPageView, SignUpView
@@ -28,6 +35,10 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name='login'),
     path("logout/", LogoutView.as_view(), name='logout'),
     path("signup/", SignUpView.as_view(), name='signup'),
+    path("reset_password/", PasswordResetView.as_view(), name='reset_password'),
+    path("password_reset_confirm/<uidb64>/<token>/", PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path("password_reset_done/", PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path("password_reset_complete/", PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
 
 if settings.DEBUG:
